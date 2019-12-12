@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React , {useMemo} from 'react';
+import Footer from './Footer';
+import Track from './Track';
 import './App.css';
 
+const initialState = {
+  durationSec: 60,
+  zoomInd: 1,
+  marked : {x:0}
+}
 function App() {
+  const [trackState, setTrackstate]= React.useState(initialState);
+  const {durationSec, zoomInd, marked} = trackState;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="containerDiv">
+        <Track trackState={trackState}/>
+        <Footer />
+      </div>
     </div>
   );
 }

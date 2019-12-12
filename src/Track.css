@@ -1,0 +1,43 @@
+.track{
+  border-bottom: 1px solid red;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.trackbar{
+  background-color: #b1dddd;
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+}
+.trackbarContainer {
+  align-self: center ;
+  height: 20px;
+  display: flex;
+  width: 100%;
+}
+.bigTick{
+  width: 0px;
+  border-right: 1px solid black;
+  height: 10px
+}
+
+.smallTick{
+  width: 0px;
+  border-right: 1px solid black;
+  height: 6px
+}
+
+.selection{
+  opacity: 0.8;
+  background-color: green;
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  left: 50px;
+  box-sizing: content-box;
+  border-left: greenyellow 1px solid;
+  border-right: greenyellow 1px solid;
+
+}
