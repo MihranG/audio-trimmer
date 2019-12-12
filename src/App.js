@@ -1,4 +1,4 @@
-import React , {useMemo} from 'react';
+import React from 'react';
 import Footer from './Footer';
 import Track from './Track';
 import './App.css';
@@ -10,7 +10,6 @@ const initialState = {
 }
 function App() {
   const [trackState, setTrackstate]= React.useState(initialState);
-  const {durationSec, zoomInd, marked} = trackState;
   return (
     <div className="App">
       <div className="containerDiv">

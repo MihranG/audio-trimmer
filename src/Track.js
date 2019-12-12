@@ -1,7 +1,7 @@
 import React, {useMemo, useState, useRef, useEffect} from 'react';
 import {Rnd} from 'react-rnd';
 import NextPrevButton from './NextPrevButton';
-// import ReactTooltip from 'react-tooltip'
+import ReactTooltip from 'react-tooltip'
 
 import './Track.css';
 
@@ -14,7 +14,7 @@ const secondsCalculator = (durationSize, barLength, wholeDuration ) =>{
 }
 
 function Track({trackState}) {
-  const {durationSec, zoomInd, marked} = trackState;
+  const {durationSec, zoomInd} = trackState;
   const dividers = Math.min(MAX_DURATION, durationSec)*10/zoomInd;
   const dividersArr = useMemo(()=>new Array(dividers).fill(),[dividers]);
   const [positions, setPositions] = useState({x:0, y:0, startingSeconds: 0});
@@ -41,18 +41,28 @@ function Track({trackState}) {
 
 
   const isExceed = useMemo(()=>durationSec > MAX_DURATION, [durationSec]);
+  const endingSeconds = positions.startingSeconds + apearingState.selectedDuration;
+  const roundedStartingSeconds = Math.round(positions.startingSeconds * 1000)/1000;
+  const roundedEndingSeconds = Math.round(endingSeconds * 1000)/1000;
+  const startingSecondsText = `${Math.floor(roundedStartingSeconds)}s ${roundedStartingSeconds*1000%1000}ms`;
 
-  return (
+  const endingSecondsText = `${Math.floor(roundedEndingSeconds)}s ${roundedEndingSeconds*1000%1000}ms`;
+  return (<>
+    <ReactTooltip place="bottom" type="dark" effect="solid" >
+    <span>start: {startingSecondsText}</span><br/>
+    <span>end: {endingSecondsText}</span>  
+    </ReactTooltip>
+
+
     <div className="track">
       {isExceed && <NextPrevButton isNext={false}/>}
       <div className="trackbarContainer">
         <Rnd
+          data-tip="React-tooltip"
           className="selection"
           enableResizing={{right:true, left: true}}
           bounds={'.trackbar'}
           onDragStop={(e, d) => { 
-            console.log(88, d)
-
             setPositions({ x: d.x, y: d.y , startingSeconds: 
               secondsCalculator(d.x, boundElementSize, apearingState.duration)
             }) 
@@ -81,16 +91,19 @@ function Track({trackState}) {
 
         <div className="trackbar" ref={boundElement}>
           {dividersArr.map((divider, ind)=>{
-            return (<div className={ind%5===0 ? "bigTick": "smallTick"}></div>)
+            return (<div key={ind+Math.random()}className={ind%5===0 ? "bigTick": "smallTick"}></div>)
           })}
         </div>
         <p style={{position: "absolute", top: 10}}>start: {apearingState.nextPrevSeconds}</p>
         <p style={{position: "absolute", top: 10, left: 100}}>selected duration: {Math.round(apearingState.selectedDuration*100)/100}</p>
-        <p style={{position: "absolute", top: 10, left: 300}}>starting: {positions.startingSeconds}</p>
+        <p style={{position: "absolute", top: 10, left: 300}}>starting: {startingSecondsText}</p>
+        <p style={{position: "absolute", top: 10, left: 500}}>ending: {endingSecondsText}</p>
+
       </div>
       {isExceed && <NextPrevButton isNext={true}/>}
 
     </div>
+    </>
   );
 }
 
