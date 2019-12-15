@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Project is intended to be audio trackbar with marking placeholder.
+
 ## Available Scripts
 
 In the project directory, you can run:

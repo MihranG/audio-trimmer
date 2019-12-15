@@ -29,6 +29,7 @@ function Track({trackState}) {
   const {x, y} = positions;
   const {width, height} = sizes;
   const boundElement = useRef(null);
+
   useEffect(()=>{
     const trackBarLength = boundElement.current.clientWidth
     setBoundElementSize(trackBarLength);
@@ -39,7 +40,6 @@ function Track({trackState}) {
     })
   },[])
 
-
   const isExceed = useMemo(()=>durationSec > MAX_DURATION, [durationSec]);
   const endingSeconds = positions.startingSeconds + apearingState.selectedDuration;
   const roundedStartingSeconds = Math.round(positions.startingSeconds * 1000)/1000;
@@ -47,13 +47,12 @@ function Track({trackState}) {
   const startingSecondsText = `${Math.floor(roundedStartingSeconds)}s ${roundedStartingSeconds*1000%1000}ms`;
 
   const endingSecondsText = `${Math.floor(roundedEndingSeconds)}s ${roundedEndingSeconds*1000%1000}ms`;
-  return (<>
+  return (
+  <>
     <ReactTooltip place="bottom" type="dark" effect="solid" >
-    <span>start: {startingSecondsText}</span><br/>
-    <span>end: {endingSecondsText}</span>  
+      <span>start: {startingSecondsText}</span><br/>
+      <span>end: {endingSecondsText}</span>  
     </ReactTooltip>
-
-
     <div className="track">
       {isExceed && <NextPrevButton isNext={false}/>}
       <div className="trackbarContainer">
@@ -88,7 +87,6 @@ function Track({trackState}) {
           size= {{width, height}}
           position={{x,y}}
         />
-
         <div className="trackbar" ref={boundElement}>
           {dividersArr.map((divider, ind)=>{
             return (<div key={ind+Math.random()}className={ind%5===0 ? "bigTick": "smallTick"}></div>)
@@ -98,12 +96,10 @@ function Track({trackState}) {
         <p style={{position: "absolute", top: 10, left: 100}}>selected duration: {Math.round(apearingState.selectedDuration*100)/100}</p>
         <p style={{position: "absolute", top: 10, left: 300}}>starting: {startingSecondsText}</p>
         <p style={{position: "absolute", top: 10, left: 500}}>ending: {endingSecondsText}</p>
-
       </div>
       {isExceed && <NextPrevButton isNext={true}/>}
-
     </div>
-    </>
+  </>
   );
 }
 
